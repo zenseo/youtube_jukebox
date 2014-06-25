@@ -70,13 +70,13 @@ $(function(){
     $(document).on('click', '#list tr td button', function(){
         var num = $(this).parent().parent().index();
         list.splice(num, 1);
+        $(this).parent().parent().remove();
         if(currentIndex == num) {
             currentIndex--;
             $('#next').trigger('click');
         }else if(currentIndex > num){
             currentIndex--;
         }
-        $(this).parent().parent().remove();
         return false;
     })
 
