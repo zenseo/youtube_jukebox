@@ -51,22 +51,34 @@ $(function(){
                             response.result.items[i].snippet.thumbnails.default.url + '" width="120px" style="float:left;"><p><b>Title:</b> ' + 
                             response.result.items[i].snippet.title +
                             '<p><b>Description:</b> ' + response.result.items[i].snippet.description +
-                            '</p></td><td></div><button class="btn btn-default btn-sm" id="' + response.result.items[i].id.videoId + '"><i class="glyphicon glyphicon-plus"></i></button></td></tr>'
+                            '</p></td><td></div><button class="btn btn-link btn-sm" id="' + response.result.items[i].id.videoId + '"><i class="glyphicon glyphicon-plus"></i></button></td></tr>'
             }
             $('#searchWord').html('&lsaquo; keyword: ' + q + ' &rsaquo;');
             $('#search-container').html(contents);
             // $('#query').val('');
-            console.log(response.result.items);
         });
         return false;
     });
 
     $(document).on('click', '#search-container tr td button', function (){
         list.push(searchResult[$(this).attr('id')]);
-        $('#list').append('<tr><td>'+ list[list.length-1].title +'</td></tr>');
+        $('#list').append('<tr><td>'+ list[list.length-1].title +'</td><td><button class="btn btn-link btn-sm" style="float:right;"><i class="glyphicon glyphicon-remove"></i></button></td></tr>');
         if(list.length==1) play();
         return false;
     });
+
+    $(document).on('click', '#list tr td button', function(){
+        var num = $(this).parent().parent().index();
+        list.splice(num, 1);
+        if(currentIndex == num) {
+            currentIndex--;
+            $('#next').trigger('click');
+        }else if(currentIndex > num){
+            currentIndex--;
+        }
+        $(this).parent().parent().remove();
+        return false;
+    })
 
     function play(){
         var videoId = list[currentIndex].id;
