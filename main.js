@@ -113,15 +113,19 @@ $(function(){
     });
 
     $('#next').click(function (){
-        if(currentIndex == list.length-1) return false;
+        if(list.length == 0) return false;
+        else if(currentIndex == list.length-1) return false;
         else currentIndex++;
         play();
+        return false;
     });
 
     $('#prev').click(function (){
-        if(currentIndex == 0) return false;
+        if(list.length == 0) return false;
+        else if(currentIndex == 0) return false;
         else currentIndex--;
         play();
+        return false;
     });
 
 });
