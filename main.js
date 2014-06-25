@@ -72,8 +72,14 @@ $(function(){
         list.splice(num, 1);
         $(this).parent().parent().remove();
         if(currentIndex == num) {
-            currentIndex--;
-            $('#next').trigger('click');
+            if(list.length == 0){
+                player.stopVideo();
+                currentIndex = 0;
+                player.clearVideo();
+            }else{
+                currentIndex--;
+                $('#next').trigger('click');
+            }
         }else if(currentIndex > num){
             currentIndex--;
         }
