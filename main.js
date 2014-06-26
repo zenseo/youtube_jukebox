@@ -23,7 +23,7 @@ function onPlayerStateChange(e){
 
 $(function(){
     var currentTime, currentIndex = 0, list = [], searchResult={};
-    
+    setPlayerHeight();
     $('#query').focus();
     
     $('#searchForm').submit(function () {
