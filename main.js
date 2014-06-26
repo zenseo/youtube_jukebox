@@ -23,7 +23,7 @@ function onPlayerStateChange(e){
 
 $(function(){
     var currentTime, currentIndex = 0, list = [], searchResult={};
-    
+    setPlayerHeight();
     $('#query').focus();
     
     $('#searchForm').submit(function () {
@@ -84,7 +84,17 @@ $(function(){
             currentIndex--;
         }
         return false;
-    })
+    });
+    
+    $( window ).resize(function(){
+        setPlayerHeight();
+        return false;
+    });
+
+    function setPlayerHeight(){
+        var playerWidth = $( '#player' ).width();
+        $('#player').css('height', 9*playerWidth/16);
+    };
 
     function play(){
         var videoId = list[currentIndex].id;
