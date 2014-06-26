@@ -104,7 +104,8 @@ $(function(){
     }
 
     $('#play').click(function (){
-        if(currentTime != 0) player.playVideo();
+        if(list.length == 0) return false;
+        else if(currentTime != 0) player.playVideo();
         else play();
         return false;
     });
