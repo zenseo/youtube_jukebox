@@ -71,17 +71,23 @@ $(function(){
         var num = $(this).parent().parent().index();
         list.splice(num, 1);
         $(this).parent().parent().remove();
-        if(currentIndex == num || list.length == currentIndex) {
+        if(currentIndex == num) {
             if(list.length == 0){
                 player.stopVideo();
                 currentIndex = 0;
                 player.clearVideo();
+                return false;
+            }else if(list.length == currentIndex){
+                $('#stop').trigger('click');
+                return false;
             }else{
                 currentIndex--;
                 $('#next').trigger('click');
+                return false;
             }
         }else if(currentIndex > num){
             currentIndex--;
+            return false;
         }
         return false;
     });
