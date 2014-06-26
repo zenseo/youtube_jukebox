@@ -71,7 +71,7 @@ $(function(){
         var num = $(this).parent().parent().index();
         list.splice(num, 1);
         $(this).parent().parent().remove();
-        if(currentIndex == num) {
+        if(currentIndex == num || list.length == currentIndex) {
             if(list.length == 0){
                 player.stopVideo();
                 currentIndex = 0;
