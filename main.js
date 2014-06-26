@@ -111,12 +111,14 @@ $(function(){
     });
 
     $('#pause').click(function (){
+        if(list.length == 0) return false;
         player.pauseVideo();
         currentTime = player.getCurrentTime();
         return false;
     });
 
     $('#stop').click(function (){
+        if(list.length == 0) return false;
         currentIndex = 0;
         play();
         player.stopVideo();
