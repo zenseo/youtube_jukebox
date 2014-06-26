@@ -84,7 +84,17 @@ $(function(){
             currentIndex--;
         }
         return false;
-    })
+    });
+    
+    $( window ).resize(function(){
+        setPlayerHeight();
+        return false;
+    });
+
+    function setPlayerHeight(){
+        var playerWidth = $( '#player' ).width();
+        $('#player').css('height', 9*playerWidth/16);
+    };
 
     function play(){
         var videoId = list[currentIndex].id;
