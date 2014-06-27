@@ -133,7 +133,7 @@ $(function(){
 
     $('#next').click(function (){
         if(list.length == 0) return false;
-        else if(currentIndex == list.length-1) return false;
+        else if(currentIndex == list.length-1) {$('#stop').trigger('click'); return false;}
         else currentIndex++;
         return play();
     });
