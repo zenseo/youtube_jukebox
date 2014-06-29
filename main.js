@@ -2,7 +2,7 @@ var player;
 
 function onClientLoad() {
     gapi.client.load('youtube', 'v3', function(){
-        gapi.client.setApiKey('AIzaSyCVCCs_f8WL4Tc13Xak7K76BAs9gXwF1N0');
+        gapi.client.setApiKey('AIzaSyAgrzHSnuqsNIC_0h6991ThQRTkDr1Dg6Q');
         $('#search-button').attr('disabled', false);
     });
 }
@@ -22,9 +22,23 @@ function onPlayerStateChange(e){
 }
 
 $(function(){
-    var currentTime, currentIndex = 0, list = [], searchResult={};
+    var currentTime = 0, currentIndex = 0, list = [], searchResult={};
+    
     setPlayerHeight();
     $('#query').focus();
+
+    if(typeof(Storage) != "undefined"){
+        list = JSON.parse(localStorage.getItem('list'));
+        if(list != null){
+            var content = '';
+            for(var i=0; i<list.length; i++){
+                content += '<tr><td>' + list[i].title + '</td><td><button class="btn btn-link btn-sm" style="float:right;"><i class="glyphicon glyphicon-remove"></i></button></td></tr>';
+            }
+            $('#list').html(content);
+        }else{
+            list =[];
+        }
+    }
     
     $('#searchForm').submit(function () {
         var q = $('#query').val();
@@ -62,6 +76,7 @@ $(function(){
 
     $(document).on('click', '#search-container tr td button', function (){
         list.push(searchResult[$(this).attr('id')]);
+        localStorage.setItem('list', JSON.stringify(list));
         $('#list').append('<tr><td>'+ list[list.length-1].title +'</td><td><button class="btn btn-link btn-sm" style="float:right;"><i class="glyphicon glyphicon-remove"></i></button></td></tr>');
         if(list.length==1) play();
         return false;
@@ -70,14 +85,15 @@ $(function(){
     $(document).on('click', '#list tr td button', function(){
         var num = $(this).parent().parent().index();
         list.splice(num, 1);
+        localStorage.setItem('list', JSON.stringify(list));
         $(this).parent().parent().remove();
-        if(currentIndex == num) {
-            if(list.length == 0){
+        if(list.length == 0){
                 player.stopVideo();
                 currentIndex = 0;
                 player.clearVideo();
                 return false;
-            }else if(list.length == currentIndex){
+        }else if(currentIndex == num) {
+            if(list.length == currentIndex){
                 $('#stop').trigger('click');
                 return false;
             }else{
@@ -91,7 +107,7 @@ $(function(){
         }
         return false;
     });
-    
+
     $( window ).resize(function(){
         setPlayerHeight();
         return false;
@@ -110,21 +126,21 @@ $(function(){
     }
 
     $('#play').click(function (){
-        if(list.length == 0) return false;
-        else if(currentTime != 0) player.playVideo();
+        if(list.length === 0) return false;
+        else if(currentTime !== 0) player.playVideo();
         else play();
         return false;
     });
 
     $('#pause').click(function (){
-        if(list.length == 0) return false;
+        if(list.length === 0) return false;
         player.pauseVideo();
         currentTime = player.getCurrentTime();
         return false;
     });
 
     $('#stop').click(function (){
-        if(list.length == 0) return false;
+        if(list.length === 0) return false;
         currentIndex = 0;
         play();
         player.stopVideo();
@@ -146,5 +162,4 @@ $(function(){
         play();
         return false;
     });
-
 });
